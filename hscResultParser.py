@@ -1,3 +1,4 @@
+import re
 import json
 
 
@@ -8,7 +9,7 @@ def hscResultPreparser(filename):
     upFile = open(filename)
     upData = upFile.read()
     upFile.close()
-    pData = str.split(upData, ']')
+    pData = re.findall(r'\[(.*?)\]', upData)
     return pData
 
 
@@ -16,7 +17,7 @@ def hscResultParser(pData):
     keepData = []
     for each in pData:
         if each != '':
-            tmp = each + ']'
+            tmp = '[' + each + ']'
             tmpData = json.loads(tmp)
             keepData.append(tmpData[0])
     return keepData
